@@ -1,0 +1,40 @@
+/* Navigation bar */
+.navbar {
+    background: #7697b1;
+	padding-left: 16px;
+	padding-right: 16px;
+	border-radius: 0;
+}
+
+.navbar img{
+    filter: brightness(0) invert(1);
+}
+
+.navbar .navbar-nav i, a{
+    color: #fff !important;
+}
+
+.navbar .navbar-brand {
+    color: #fff !important;
+	font-size: 20px;
+	padding-left: 0;
+	padding-right: 50px;
+}
+
+.navbar .navbar-brand b {
+	color: #fff;
+}
+
+.navbar a, .navbar a:active {
+	color: #fff;
+	background: transparent;
+}
+
+.navbar .navbar-nav a:hover, .navbar .navbar-nav a:focus {
+	color: #FFFF99 !important;
+}
+
+.navbar .navbar-nav > a.active, .navbar .navbar-nav.show > a {
+	color: #DD1C1A !important;
+	background: transparent !important;
+}
