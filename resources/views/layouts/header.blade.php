@@ -7,8 +7,8 @@
     <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
         <div class="navbar-nav" style="margin-left: auto; margin-right: auto">
             <a href="/home" class="nav-item nav-link">Home</a>
-            <a href="/" class="nav-item nav-link">Explore</a>
-            <a href="/" class="nav-item nav-link">My Bucket List</a>
+            <a href="/explore" class="nav-item nav-link">Explore</a>
+            <a href="/mybucketlist" class="nav-item nav-link">My Bucket List</a>
         </div>
         <div class="navbar-nav" style="float:right">
             <a href="/" class="nav-item nav-link">Hello, @username</a>
