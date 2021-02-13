@@ -37,10 +37,13 @@ Route::get('/register', function() {
 /*Fetches the post parameters of registration*/
 Route::post('/register', 'App\Http\Controllers\RegisterController@index');
 
-/*Route is mapped to the '/register' URI and will return the home page where login form is located */
+/*Route is mapped to the '/login' URI and will return the home page where login form is located */
 Route::get('/login', function() {
-    return view('home#pills-login');
+    return view('home');
 });
 
-/*Fetches the post parameters of registration*/
+/*Fetches the post parameters of login*/
 Route::post('/login', 'App\Http\Controllers\LoginController@index');
+
+/*Fetches the post parameters of logout*/
+Route::get('/logout', 'App\Http\Controllers\LoginController@logout');

@@ -6,12 +6,18 @@
     <!-- Collection of nav links, forms, and other content for toggling -->
     <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
         <div class="navbar-nav" style="margin-left: auto; margin-right: auto">
+            {{-- User Session --}}
+            <?php if(session()->has('user_id')){?>
+            <a href="/explore" class="nav-item nav-link">Explore</a>
+            <a href="/mybucketlist" class="nav-item nav-link">My Bucket List</a> <?php } else{?>
             <a href="/home" class="nav-item nav-link">Home</a>
             <a href="/explore" class="nav-item nav-link">Explore</a>
-            <a href="/mybucketlist" class="nav-item nav-link">My Bucket List</a>
+            <?php } ?>
         </div>
         <div class="navbar-nav" style="float:right">
-            <a href="/" class="nav-item nav-link">Hello, @username</a>
+            <?php if(session()->has('user_id')){?>
+            <a href="/" class="nav-item nav-link">Hello &#x40;{{session()->get('username')}}</a>
+            <a href="/logout" class="nav-item nav-link">Logout</a><?php }?>
         </div>
     </div>
 </nav>
