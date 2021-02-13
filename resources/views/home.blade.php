@@ -30,7 +30,8 @@
                 <div class="card-body pb-4">
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab">
-                    <form>
+                    <form action="login" method="POST">
+                        <input type="hidden" name="_token" value = "<?php echo csrf_token()?>">
                         <div class="form-group">
                         <input type="username" name="username" class="form-control" id="username" placeholder="Username" required autofocus>
                         </div>
@@ -42,26 +43,32 @@
                         <div class="text-center pt-4">
                         <button type="submit" class="btn btn-primary">Login</button>
                         </div>
+                        @if(session()->has('message'))
+                            <div class="alert alert-danger">
+                                {{ session()->get('message') }}
+                            </div>
+                        @endif
                     </form>
                     </div>
 
                     <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="pills-register-tab">
-                    <form>
+                    <form action="register" method="POST">
+                        <input type="hidden" name="_token" value = "<?php echo csrf_token()?>">
                         <div class="form-group">
-                        <input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
+                        <input type="email" name="email" id="email" class="form-control" placeholder="Email" value="{{ old("email") }}" required>
                         </div>
-
                         <div class="form-group">
-                        <input type="text" name="username" id="username" class="form-control" placeholder="Username" required autofocus>
+                        <input type="text" name="username" id="username" class="form-control" placeholder="Username" value="{{ old("username") }}" required autofocus>
                         </div>
-
                         <div class="form-group">
-                        <input type="password" name="password" id="password" class="form-control" placeholder="Set a password" required>
+                        <input type="password" name="password" id="password" class="form-control" placeholder="Set a password" value="{{ old("password") }}" required>
                         </div>
-
                         <div class="text-center pt-2 pb-1">
                         <button type="submit" class="btn btn-primary">Register</button>
                         </div>
+                        @if ($errors->has('username'))
+                        {{ $errors->first('username') }}
+                     @endif
                     </form>
                     </div>
                 </div>

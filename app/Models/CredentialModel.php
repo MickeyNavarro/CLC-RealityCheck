@@ -4,18 +4,16 @@
 //February 9, 2021
 //This is our own work
 
-/* BucketList User Model Object */
+/* BucketList Credential Model Object */
 namespace App\Models;
 
-class UserModel {
+class CredentialModel {
     private $id;
     private $username;
-    private $email;
     private $password;
 
-    public function __construct($id, $email, $username, $password) {
+    public function __construct($id, $username, $password) {
         $this->id = $id;
-        $this->email = $email;
         $this->username = $username;
         $this->password = $password;
     }
@@ -34,14 +32,6 @@ class UserModel {
     public function getUsername()
     {
         return $this->username;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEmail()
-    {
-        return $this->email;
     }
 
      /**
@@ -66,14 +56,6 @@ class UserModel {
     public function setUsername($username)
     {
         $this->username = $username;
-    }
-
-     /**
-     * @param mixed $email
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
     }
 
     /**
