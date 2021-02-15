@@ -22,19 +22,19 @@ class BucketListController extends Controller
      * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function index(Request $request) {
-            //1. check if bucket list exists 
+            //1. check if bucket list exists
             //get the user ID from the session variables
-            $user_id = $request->session()->get('user_id'); 
+            $user_id = $request->session()->get('user_id');
 
             //2. call bucket list business service
             $service = new BucketListBusinessService();
 
             //3. execute business service
             //find the bucket list ID that belongs to the user with the given ID
-            $bucketListID = $service->findListByUserID($user_id); 
+            $bucketListID = $service->findListByUserID($user_id);
 
-            //4. check if the bucket list was returned 
-            if ($bucketListID != null) { 
+            //4. check if the bucket list was returned
+            if ($bucketListID != null) {
                 //1. process form data
                 //get posted form data
                 $listItem = $request->input('listItem');
@@ -47,12 +47,14 @@ class BucketListController extends Controller
                 //create a new bucket list item with the form data and bucket list ID
                 $success = $service->createListItem($newItem);
 
-                //4. process results from business service 
+                // $find = $service->findListItems($bucketListID);
+
+                //4. process results from business service
                 //render a failed response view with an error message or a success response view with the new list item
                 if ($newItem != null && $success) {
-                    return redirect('mybucketlist');
+                    return view('mybucketlistResult')->with('bucketlist_id', $bucketListID);
                 }
-    
+
                 else {
                     return redirect()->back()->with('message', 'Bucket list item creation has failed');
                 }
@@ -60,10 +62,10 @@ class BucketListController extends Controller
             else {
                 //1. execute business services
                 //create a new bucket list to belong to the user with the given ID
-                $listSuccess = $service->createBucketList($user_id); 
-            
+                $listSuccess = $service->createBucketList($user_id);
+
                 //find the bucket list ID that belongs to the user with the given ID
-                $bucketListID = $service->findListByUserID($user_id); 
+                $bucketListID = $service->findListByUserID($user_id);
 
                 //2. check if the bucket list was created
                 if ($listSuccess && $bucketListID != null) {
@@ -79,17 +81,19 @@ class BucketListController extends Controller
                     //create a new bucket list item with the form data and bucket list ID
                     $success = $service->createListItem($newItem);
 
-                    //4. process results from business service 
+                    $find = $service->findListItems($bucketListID);
+
+                    //4. process results from business service
                     //render a failed response view with an error message or a success response view with the new list item
                     if ($newItem != null && $success) {
-                        return redirect('mybucketlist');
+                        return view('mybucketlistResult')->with('list', $find);
                     }
-        
+
                     else {
                         return redirect()->back()->with('message', 'Bucket list item creation has failed');
                     }
                 }
-                
+
                 return redirect()->back()->with('message', 'Bucket list not found');
             }
     }
@@ -101,5 +105,18 @@ class BucketListController extends Controller
      * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function getList(Request $request) {
+        //
+        $user_id = $request->session()->get('user_id');
+
+        $service = new BucketListBusinessService();
+
+        $bucketListID = $service->findListByUserID($user_id);
+
+        if($bucketListID != null){
+            $find = $service->findListItems($bucketListID);
+
+            return view('mybucketlist')->with('list', $find);
+        }
+
     }
 }
