@@ -47,7 +47,7 @@ class BucketListController extends Controller
                 //create a new bucket list item with the form data and bucket list ID
                 $success = $service->createListItem($newItem);
 
-                // $find = $service->findListItems($bucketListID);
+                $find = $service->findListItems($bucketListID);
 
                 //4. process results from business service
                 //render a failed response view with an error message or a success response view with the new list item
@@ -86,7 +86,7 @@ class BucketListController extends Controller
                     //4. process results from business service
                     //render a failed response view with an error message or a success response view with the new list item
                     if ($newItem != null && $success) {
-                        return view('mybucketlistResult')->with('list', $find);
+                        return view('mybucketlistResult')->with('bucketlist_id', $bucketListID);
                     }
 
                     else {
