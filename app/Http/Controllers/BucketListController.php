@@ -47,6 +47,7 @@ class BucketListController extends Controller
                 //create a new bucket list item with the form data and bucket list ID
                 $success = $service->createListItem($newItem);
 
+                //find all the list items to be outputted
                 $find = $service->findListItems($bucketListID);
 
                 //4. process results from business service
@@ -80,7 +81,8 @@ class BucketListController extends Controller
                     //3. execute business service
                     //create a new bucket list item with the form data and bucket list ID
                     $success = $service->createListItem($newItem);
-
+                
+                    //find all the list items to be outputted
                     $find = $service->findListItems($bucketListID);
 
                     //4. process results from business service
@@ -105,18 +107,39 @@ class BucketListController extends Controller
      * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function getList(Request $request) {
-        //
+        //get the user ID from the session variables
         $user_id = $request->session()->get('user_id');
 
+        //initialize the service
         $service = new BucketListBusinessService();
 
+        //execute the service to find the list by the user ID 
         $bucketListID = $service->findListByUserID($user_id);
 
+        //check if bucket list id was returned
         if($bucketListID != null){
+
+            //find all the list items to be outputted
             $find = $service->findListItems($bucketListID);
 
+            //return view with the list items
             return view('mybucketlist')->with('list', $find);
         }
+        else { 
+            //create a new bucket list to belong to the user with the given ID
+            $listSuccess = $service->createBucketList($user_id);
 
+            //find the bucket list ID that belongs to the user with the given ID
+            $bucketListID = $service->findListByUserID($user_id);
+
+            //check if the bucket list was created
+            if ($listSuccess && $bucketListID != null) {
+                //find all the list items to be outputted
+                $find = $service->findListItems($bucketListID);
+
+                //return view with the list items
+                return view('mybucketlist')->with('list', $find);
+            }
+        }
     }
 }

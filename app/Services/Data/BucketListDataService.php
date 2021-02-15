@@ -99,7 +99,7 @@ class BucketListDataService {
     //Method to get all the lists from database
     public function findAllLists() {
         //prepared statement is created to display all bucket lists and their list items
-        $stmt = "SELECT BucketList.ID, BucketList.User_ID, ListItem.ID, ListItem.Description FROM BucketList INNER JOIN ListItem ON BucketList.ID = ListItem.BucketList_ID ORDER BY BucketList.User_ID ASC";
+        $stmt = "SELECT BucketList.ID as BucketList_ID, BucketList.User_ID, ListItem.ID as ListItem_ID, ListItem.Description FROM BucketList INNER JOIN ListItem ON BucketList.ID = ListItem.BucketList_ID ORDER BY BucketList.User_ID ASC";
 
 
         //executes prepared query
@@ -108,12 +108,11 @@ class BucketListDataService {
         if ($result->num_rows > 0) {
             //bucket list array is created
             $bucketListArray = array();
-            /* WILL FIGURE OUT LATER
             //fetches result from prepared statement and returns as an array
-            while ($recipe = mysqli_fetch_assoc($result)) {
+            while ($bucketList = mysqli_fetch_assoc($result)) {
                 //inserts variables into end of array
-                array_push($recipeArray, $recipe);
-            }*/
+                array_push($bucketListArray, $bucketList);
+            }
 
             //return bucket list array
             return $bucketListArray;
