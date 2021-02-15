@@ -47,3 +47,6 @@ Route::post('/login', 'App\Http\Controllers\LoginController@index');
 
 /*Fetches the post parameters of logout*/
 Route::get('/logout', 'App\Http\Controllers\LoginController@logout');
+
+/*Fetches the post parameters of add list item*/
+Route::post('/addListItem', 'App\Http\Controllers\BucketListController@index');

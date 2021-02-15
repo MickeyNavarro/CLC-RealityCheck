@@ -10,11 +10,12 @@
 {{-- Add Item --}}
 <div class="input-bar">
     <div class="input-bar-item">
-      <form action="" method="POST">
+      <form action="addListItem" method="POST">
+        @csrf
          <div class="input-group">
-            <input class="form-control" placeholder="Before I Die I Want To..." type="text"/>
+            <input class="form-control" name="listItem" id="listItem" placeholder="Before I Die I Want To..." type="text" required/>
             <span class="input-group-btn">
-              <button class="btn btn-info">Add</button>
+              <button type="submit" class="btn btn-info">Add</button>
             </span>
         </div>
       </form>

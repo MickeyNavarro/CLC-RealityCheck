@@ -24,7 +24,7 @@ class UserDataService {
         $email = $user->getEmail();
 
         //prepared statements is created
-        $stmt = $this->conn->prepare("INSERT INTO `user` (`Username`, `Email`, `Password`) VALUES (:username, :email, :password)");
+        $stmt = $this->conn->prepare("INSERT INTO `User` (`Username`, `Email`, `Password`) VALUES (:username, :email, :password)");
         //binds parameters
         $stmt->bindParam(':username', $username);
         $stmt->bindParam(':email', $email);
@@ -51,7 +51,7 @@ class UserDataService {
         $username = $user->getUsername();
         $password = $user->getPassword();
 
-        $stmt = $this->conn->prepare('SELECT * FROM `user` WHERE BINARY `Username` = :username AND `Password` = :password');
+        $stmt = $this->conn->prepare('SELECT * FROM `User` WHERE BINARY `Username` = :username AND `Password` = :password');
         $stmt->bindParam(':username', $username);
         $stmt->bindParam(':password', $password);
 

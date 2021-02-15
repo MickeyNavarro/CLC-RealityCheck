@@ -15,7 +15,7 @@ class RegisterController extends Controller {
     //add a user
     public function index(Request $request){
         try{
-            $this->validateForm($request);
+            //$this->validateForm($request);
 
             //recieves data inputed from user
             $email = $request->input('email');
@@ -53,7 +53,7 @@ class RegisterController extends Controller {
         //best practice: centralize your rules so you have a consistent architecture and even reuse your rules
         //bad practice: not using a defined data validation framework, putting rules all over your code, doing only on client side or database
         //setup data validation rules for login form
-        $rules = ['username' => 'unique:user'];
+        $rules = ['username' => 'unique:User'];
 
         $customMessage = ['unique' => '*Username already exists'];
 
