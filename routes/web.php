@@ -25,10 +25,6 @@ Route::get('/explore', function () {
     return view('explore');
 });
 
-Route::get('/mybucketlist', function () {
-    return view('mybucketlist');
-});
-
 /*Route is mapped to the '/register' URI and will return the home page where register form is located */
 Route::get('/register', function() {
     return view('home');
@@ -47,6 +43,16 @@ Route::post('/login', 'App\Http\Controllers\LoginController@index');
 
 /*Fetches the post parameters of logout*/
 Route::get('/logout', 'App\Http\Controllers\LoginController@logout');
+
+Route::get('/mybucketlist', function () {
+    return view('mybucketlist');
+});
+
+Route::get('/mybucketlist', 'App\Http\Controllers\BucketListController@getList');
+
+Route::get('/addListItem', function () {
+    return view('mybucketlistResult');
+});
 
 /*Fetches the post parameters of add list item*/
 Route::post('/addListItem', 'App\Http\Controllers\BucketListController@index');

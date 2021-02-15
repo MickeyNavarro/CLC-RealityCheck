@@ -7,7 +7,7 @@ namespace App\Services\Data;
 
 use App\Models\ListItemModel;
 
-//Database interacts with the data from the bucketlist class and the list item class 
+//Database interacts with the data from the bucketlist class and the list item class
 class BucketListDataService {
     private $conn = null;
 
@@ -34,7 +34,7 @@ class BucketListDataService {
     }
 
     // Method to get the bucket list from database using the user ID
-    public function findListByUserID(int $userID) {
+    public function findListByUserID($userID) {
         //check if row exists by using the $userID
         //prepared statements is created
         $stmt = $this->conn->prepare("SELECT * FROM BucketList WHERE BucketList.User_ID = :userid LIMIT 1");
@@ -75,7 +75,7 @@ class BucketListDataService {
         }
     }
 
-    // Method to get the bucket list items from database using the bucket list id 
+    // Method to get the bucket list items from database using the bucket list id
     public function findListItems(int $bucketListID) {
         //check if row exists by using the $userID
         //prepared statements is created
@@ -88,7 +88,7 @@ class BucketListDataService {
 
         //loops through table  using stmt->fetch
         for ($i = 0; $row = $stmt->fetch(); $i++) {
-            //list item model is created 
+            //list item model is created
             $listItem = new ListItemModel($row['ID'], $row['Description'], $bucketListID);
             //inserts variables into end of array
             array_push($list, $listItem);
@@ -98,17 +98,17 @@ class BucketListDataService {
 
     //Method to get all the lists from database
     public function findAllLists() {
-        //prepared statement is created to display all bucket lists and their list items 
+        //prepared statement is created to display all bucket lists and their list items
         $stmt = "SELECT BucketList.ID, BucketList.User_ID, ListItem.ID, ListItem.Description FROM BucketList INNER JOIN ListItem ON BucketList.ID = ListItem.BucketList_ID ORDER BY BucketList.User_ID ASC";
 
-        
+
         //executes prepared query
         $result = mysqli_query($this->conn, $stmt);
 
         if ($result->num_rows > 0) {
             //bucket list array is created
             $bucketListArray = array();
-            /* WILL FIGURE OUT LATER 
+            /* WILL FIGURE OUT LATER
             //fetches result from prepared statement and returns as an array
             while ($recipe = mysqli_fetch_assoc($result)) {
                 //inserts variables into end of array

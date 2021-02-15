@@ -25,18 +25,15 @@
 {{-- Display --}}
 <div class="user-content">
     <div class="shadow-box">
-        {{-- Temporary Bucket List Item Display --}}
-        <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
-        <label for="vehicle1">See the Northern Lights</label><br>
-
-        <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
-        <label for="vehicle1">Travel To Thailand</label><br>
-
-        <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
-        <label for="vehicle1">Go Bungee Jumping</label><br>
-
-        <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
-        <label for="vehicle1">Read 50 Books</label><br>
+        @if(count($list) != 0)
+        @foreach ($list as $w)
+        {{-- Bucket List Item Display --}}
+            <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+            <label for="vehicle1">{{ $w->getDescription() }}</label><br>
+        @endforeach
+        @else
+            <label for="listitem">Your bucket list is empty!</label><br>
+        @endif
     </div>
 </div>
 
