@@ -51,9 +51,8 @@ class UserDataService {
         $username = $user->getUsername();
         $password = $user->getPassword();
 
-        $stmt = $this->conn->prepare('SELECT * FROM `User` WHERE BINARY `Username` = :username AND `Password` = :password');
-        $stmt->bindParam(':username', $username);
-        $stmt->bindParam(':password', $password);
+        $stmt = $this->conn->prepare('SELECT * FROM `User` WHERE BINARY `Username` = ? AND `Password` = ?');
+        $stmt->bind_param('ss', $username, $password);
 
         $stmt->execute();
 
