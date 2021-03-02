@@ -8,8 +8,8 @@
 namespace App\Services\Business;
 
 use App\Models\ListItemModel;
-use \PDO;
-use App\Services\Data\BucketListDataService; 
+use \mysqli;
+use App\Services\Data\BucketListDataService;
 
 class BucketListBusinessService {
     /**
@@ -18,13 +18,8 @@ class BucketListBusinessService {
      * @return boolean
      */
     public function createBucketList(int $userID) {
-        $servername = config("database.connections.mysql.host");
-        $dbname = config("database.connections.mysql.database");
-        $username = config("database.connections.mysql.username");
-        $password = config("database.connections.mysql.password");
-
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        //create connection
+        $conn = new mysqli( "pfw0ltdr46khxib3.cbetxkdyhwsb.us-east-1.rds.amazonaws.com", "wjbw0lcl49iw7wvr", "ftgibcj4cx7q2n8v", "lfvhk00fwjkpc2eq" );
 
         //create a bucket list service dao with this connection and try to create a bucket list
         $service = new BucketListDataService($conn);
@@ -40,15 +35,8 @@ class BucketListBusinessService {
      * @return NULL
      */
     public function findListByUserID(int $userID) {
-        //get credentials for accessing the database
-        $servername = config("database.connections.mysql.host");
-        $dbname = config("database.connections.mysql.database");
-        $username = config("database.connections.mysql.username");
-        $password = config("database.connections.mysql.password");
-
         //create connection
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $conn = new mysqli( "pfw0ltdr46khxib3.cbetxkdyhwsb.us-east-1.rds.amazonaws.com", "wjbw0lcl49iw7wvr", "ftgibcj4cx7q2n8v", "lfvhk00fwjkpc2eq" );
 
         //create a security service dao with this connection and try to find the password in user
         $service = new BucketListDataService($conn);
@@ -64,15 +52,8 @@ class BucketListBusinessService {
      * @return NULL
      */
     public function createListItem(ListItemModel $item) {
-        //get credentials for accessing the database
-        $servername = config("database.connections.mysql.host");
-        $dbname = config("database.connections.mysql.database");
-        $username = config("database.connections.mysql.username");
-        $password = config("database.connections.mysql.password");
-
         //create connection
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $conn = new mysqli( "pfw0ltdr46khxib3.cbetxkdyhwsb.us-east-1.rds.amazonaws.com", "wjbw0lcl49iw7wvr", "ftgibcj4cx7q2n8v", "lfvhk00fwjkpc2eq" );
 
         //create a security service dao with this connection and try to find the password in user
         $service = new BucketListDataService($conn);
@@ -88,15 +69,8 @@ class BucketListBusinessService {
      * @return NULL
      */
     public function findListItems(int $bucketListID) {
-        //get credentials for accessing the database
-        $servername = config("database.connections.mysql.host");
-        $dbname = config("database.connections.mysql.database");
-        $username = config("database.connections.mysql.username");
-        $password = config("database.connections.mysql.password");
-
         //create connection
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $conn = new mysqli( "pfw0ltdr46khxib3.cbetxkdyhwsb.us-east-1.rds.amazonaws.com", "wjbw0lcl49iw7wvr", "ftgibcj4cx7q2n8v", "lfvhk00fwjkpc2eq" );
 
         //create a security service dao with this connection and try to find the password in user
         $service = new BucketListDataService($conn);
@@ -112,15 +86,8 @@ class BucketListBusinessService {
      * @return NULL
      */
     public function findAllLists() {
-        //get credentials for accessing the database
-        $servername = config("database.connections.mysql.host");
-        $dbname = config("database.connections.mysql.database");
-        $username = config("database.connections.mysql.username");
-        $password = config("database.connections.mysql.password");
-
         //create connection
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $conn = new mysqli( "pfw0ltdr46khxib3.cbetxkdyhwsb.us-east-1.rds.amazonaws.com", "wjbw0lcl49iw7wvr", "ftgibcj4cx7q2n8v", "lfvhk00fwjkpc2eq" );
 
         //create a security service dao with this connection and try to find the password in user
         $service = new BucketListDataService($conn);

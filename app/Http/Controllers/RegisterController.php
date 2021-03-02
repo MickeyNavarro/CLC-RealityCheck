@@ -32,7 +32,7 @@ class RegisterController extends Controller {
             $status = $service->create($user);
 
             //4. process results from business service (navigation)
-            //render a failed or success response view and pass the user model to it
+            //render a failed or success response view
             if ($status) {
                 return redirect('home');
             }
