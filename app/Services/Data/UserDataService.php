@@ -59,12 +59,12 @@ class UserDataService {
         /*see if user existed and return true if found
             else return false if not found*/
         if ($stmt->rowCount() == 1) {
-            $user = $stmt->fetch(\PDO::FETCH_ASSOC);
+            return true;
             return $user['ID'];
         }
 
         else {
-            return null;
+            return false;
         }
     }
 }
