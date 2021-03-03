@@ -7,7 +7,7 @@
 /*Handles user business logic and connections to database*/
 namespace App\Services\Business;
 
-use \mysqli;
+use \PDO;
 use App\Models\UserModel;
 use App\Models\CredentialModel;
 use App\Services\Data\UserDataService;
@@ -19,8 +19,15 @@ class UserBusinessService {
      * @return boolean
      */
     public function create(UserModel $user) {
+        //get credentials for accessing the database
+        $servername = config("database.connections.mysql.host");
+        $dbname = config("database.connections.mysql.database");
+        $username = config("database.connections.mysql.username");
+        $password = config("database.connections.mysql.password");
+
         //create connection
-        $conn = new mysqli( "pfw0ltdr46khxib3.cbetxkdyhwsb.us-east-1.rds.amazonaws.com", "wjbw0lcl49iw7wvr", "ftgibcj4cx7q2n8v", "lfvhk00fwjkpc2eq" );
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         //create a user service dao with this connection and try to create user
         $service = new UserDataService($conn);
@@ -36,8 +43,15 @@ class UserBusinessService {
      * @return NULL
      */
     public function login(CredentialModel $user) {
+        //get credentials for accessing the database
+        $servername = config("database.connections.mysql.host");
+        $dbname = config("database.connections.mysql.database");
+        $username = config("database.connections.mysql.username");
+        $password = config("database.connections.mysql.password");
+
         //create connection
-        $conn = new mysqli( "pfw0ltdr46khxib3.cbetxkdyhwsb.us-east-1.rds.amazonaws.com", "wjbw0lcl49iw7wvr", "ftgibcj4cx7q2n8v", "lfvhk00fwjkpc2eq" );
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         //create a user service dao with this connection and try to find the username and password in user
         $service = new UserDataService($conn);

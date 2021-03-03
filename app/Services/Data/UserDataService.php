@@ -51,17 +51,19 @@ class UserDataService {
         $username = $user->getUsername();
         $password = $user->getPassword();
 
-        $stmt = $this->conn->prepare('SELECT * FROM `User` WHERE BINARY `Username` = ? AND `Password` = ?');
-        $stmt->bind_param('ss', $username, $password);
+        $stmt = $this->conn->prepare('SELECT * FROM `User` WHERE BINARY `Username` = :username AND `Password` = :password');
+        $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':password', $password);
 
         $stmt->execute();
 
         /*see if user existed and return true if found
             else return false if not found*/
         if ($stmt->rowCount() == 1) {
-            return true;
+            $user = $stmt->fetch(\PDO::FETCH_ASSOC);
             return $user['ID'];
         }
+
 
         else {
             return false;
