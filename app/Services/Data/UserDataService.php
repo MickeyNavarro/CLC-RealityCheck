@@ -56,7 +56,27 @@ class UserDataService {
      */
     public function findByUser(CredentialModel $user) {
         try{
+            //select username and password and see if the row exists
+            $username = $user->getUsername();
+            $password = $user->getPassword();
 
+            $stmt = $this->conn->prepare('SELECT * FROM `User` WHERE BINARY `Username` = :username AND `Password` = :password');
+            $stmt->bindParam(':username', $username);
+            $stmt->bindParam(':password', $password);
+
+            $stmt->execute();
+
+            /*see if user existed and return true if found
+                else return false if not found*/
+            if ($stmt->rowCount() == 1) {
+                $user = $stmt->fetch(\PDO::FETCH_ASSOC);
+                return $user['ID'];
+            }
+
+
+            else {
+                return false;
+            }
         }
 
         catch (PDOException $e){
