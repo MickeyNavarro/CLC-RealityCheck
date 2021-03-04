@@ -142,4 +142,36 @@ class BucketListController extends Controller
             }
         }
     }
+
+     /**
+     * This method find the all of the bucket lists and itsitems
+     * @param Request $request
+     * @throws ValidationException
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function getAllLists(Request $request) {
+
+        //initialize the service
+        $service = new BucketListBusinessService();
+
+        //execute the service to find the lists
+        $bucketListsArray = $service->findAllLists(); 
+
+        //check if bucket list array was returned
+        if($bucketListsArray != null){
+
+            /*Test output
+            echo "Display Bucket Lists Array in Controller: \n"; 
+      
+            print_r($bucketListsArray);
+            */
+
+            //return view with the bucket lists and its items
+            return view('explore')->with('lists', $bucketListsArray);
+        }
+        else { 
+            //return with error message 
+            return view('explore')->with('message', 'Unable to get all Bucket Lists');
+        }
+    }
 }
