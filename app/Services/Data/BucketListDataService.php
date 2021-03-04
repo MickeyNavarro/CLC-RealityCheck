@@ -2,7 +2,7 @@
 //Milestone 2
 //Almicke Navarro and Emily Quevedo
 //February 11, 2021
-//This is our own work
+//I used source code from the following website: https://www.geeksforgeeks.org/multidimensional-arrays-in-php/
 namespace App\Services\Data;
 
 use App\Models\ListItemModel;
@@ -99,23 +99,36 @@ class BucketListDataService {
     //Method to get all the lists from database
     public function findAllLists() {
         //prepared statement is created to display all bucket lists and their list items
-        $stmt = "SELECT BucketList.ID as BucketList_ID, BucketList.User_ID, ListItem.ID as ListItem_ID, ListItem.Description FROM BucketList INNER JOIN ListItem ON BucketList.ID = ListItem.BucketList_ID ORDER BY BucketList.User_ID ASC";
-
+        $stmt = $this->conn->prepare("SELECT BucketList.ID as BucketList_ID, BucketList.User_ID, ListItem.ID as ListItem_ID, ListItem.Description, User.Username FROM BucketList INNER JOIN ListItem ON BucketList.ID = ListItem.BucketList_ID Inner Join User ON User.ID = BucketList.User_ID ORDER BY BucketList.User_ID ASC"); 
 
         //executes prepared query
-        $result = mysqli_query($this->conn, $stmt);
+        $stmt->execute();
 
-        if ($result->num_rows > 0) {
-            //bucket list array is created
-            $bucketListArray = array();
-            //fetches result from prepared statement and returns as an array
-            while ($bucketList = mysqli_fetch_assoc($result)) {
-                //inserts variables into end of array
-                array_push($bucketListArray, $bucketList);
-            }
+        //bucket list multidimensional array is created
+        $bucketListsArray = array(); 
 
-            //return bucket list array
-            return $bucketListArray;
+        //loops through table using stmt->fetch
+        for ($i = 0; $row = $stmt->fetch(); $i++) {
+
+            //add the single list item to the array with its username and description
+            $singleListArray = array(
+                "$i" => array(
+                    "Username" => $row['Username'], 
+                    "List Item" => $row['Description'],
+                )
+            ); 
+
+            //add the single list array to the master array 
+            $bucketListsArray = $bucketListsArray + $singleListArray; 
         }
+        
+        /* Test output
+        echo "Display Bucket Lists Array in DataService: \n"; 
+      
+        print_r($bucketListsArray);
+        */ 
+
+        //return bucket list array
+        return $bucketListsArray;
     }
 }

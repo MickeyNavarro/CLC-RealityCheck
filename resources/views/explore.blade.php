@@ -6,14 +6,56 @@
 <h1>Explore Page</h1>
 </div>
 
+{{-- Display --}}
 <div class="content">
+    <div class="container">
+        <div class="row">
+                <?php 
+                $user = null; 
+                ?> 
+            @foreach ( $lists as $single )
+                <?php 
+                $temp = $single['Username']; 
+                ?> 
+                
+                @if ($user != null && $user != $temp)        
+                        </div>
+                    </div>
+                </div>
+                @endif
+
+                @if ($user == null || $user != $temp) 
+                        <div class="col-md-4">
+                            <div class="card-content">
+                                <div class="card-desc">
+                                    <h3>@ {{$single['Username']}} 's Bucket List</h3>
+                                    <?php 
+                                    $user = $single['Username']; 
+                                    ?>
+                @endif
+
+                @if ($user == $temp)
+                {{-- Bucket List Item Display --}}
+                    <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike" onclick="return false;">
+                    <label for="vehicle1">{{$single['List Item']}}</label><br>
+                @endif
+
+            @endforeach
+        </div>
+    </div>
+</div>
+
+
+
+
+{{--<div class="content">
     <div class="container">
         <div class="row">
             <div class="col-md-4">
                 <div class="card-content">
                     <div class="card-desc">
                         <h3>@JohnSmith's Bucket List</h3>
-                        {{-- Temporary Bucket List Item Display --}}
+                        Temporary Bucket List Item Display 
                         <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike" checked onclick="return false;">
                         <label for="vehicle1">Go Camping</label><br>
 
@@ -35,7 +77,6 @@
                 <div class="card-content">
                     <div class="card-desc">
                         <h3>@JustinBieber's Bucket List</h3>
-                        {{-- Temporary Bucket List Item Display --}}
                         <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike" onclick="return false;">
                         <label for="vehicle1">Go ghost hunting</label><br>
 
@@ -60,7 +101,6 @@
                 <div class="card-content">
                     <div class="card-desc">
                         <h3>@MileyCyrus's Bucket List</h3>
-                        {{-- Temporary Bucket List Item Display --}}
                         <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike" checked onclick="return false;">
                         <label for="vehicle1">Swim with dolphins</label><br>
 
@@ -85,7 +125,6 @@
                 <div class="card-content">
                     <div class="card-desc">
                         <h3>@TaylorSwift's Bucket List</h3>
-                        {{-- Temporary Bucket List Item Display --}}
                         <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike" onclick="return false;">
                         <label for="vehicle1">Go ghost hunting</label><br>
 
@@ -108,7 +147,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 
 
 

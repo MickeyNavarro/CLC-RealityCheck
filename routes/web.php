@@ -21,9 +21,11 @@ Route::get('/home', function () {
     return view('home');
 });
 
-Route::get('/explore', function () {
+/*Route::get('/explore', function () {
     return view('explore');
-});
+});*/
+
+Route::get('/explore', 'App\Http\Controllers\BucketListController@getAllLists');
 
 /*Route is mapped to the '/register' URI and will return the home page where register form is located */
 Route::get('/register', function() {
