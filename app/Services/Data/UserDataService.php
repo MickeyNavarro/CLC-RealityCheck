@@ -64,8 +64,9 @@ class UserDataService {
             return $user['ID'];
         }
 
+
         else {
-            return null;
+            return false;
         }
     }
 }

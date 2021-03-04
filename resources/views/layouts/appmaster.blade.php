@@ -2,7 +2,7 @@
     <head>
         <title>@yield('title')</title>
         <meta charset="utf-8">
-        <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="resources/css/app.css">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600">

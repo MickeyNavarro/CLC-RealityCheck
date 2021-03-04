@@ -19,15 +19,17 @@ class UserBusinessService {
      * @return boolean
      */
     public function create(UserModel $user) {
+        //get credentials for accessing the database
         $servername = config("database.connections.mysql.host");
         $dbname = config("database.connections.mysql.database");
         $username = config("database.connections.mysql.username");
         $password = config("database.connections.mysql.password");
 
+        //create connection
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        //create a recipe service dao with this connection and try to create recipe
+        //create a user service dao with this connection and try to create user
         $service = new UserDataService($conn);
         $flag = $service->createUser($user);
 
@@ -51,7 +53,7 @@ class UserBusinessService {
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        //create a security service dao with this connection and try to find the password in user
+        //create a user service dao with this connection and try to find the username and password in user
         $service = new UserDataService($conn);
         $flag = $service->findByUser($user);
 

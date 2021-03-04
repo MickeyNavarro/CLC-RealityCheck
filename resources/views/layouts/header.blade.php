@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light">
-    <a href="#" class="navbar-brand">RealityCheck<img src="images/checkbox.png" width="20px" height="20px" style="padding-bottom:5px; padding-left:3px"></a>
+    <a href="#" class="navbar-brand">RealityCheck<img src="resources/images/checkbox.png" width="20px" height="20px" style="padding-bottom:5px; padding-left:3px"></a>
     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
         <span class="navbar-toggler-icon"></span>
     </button>

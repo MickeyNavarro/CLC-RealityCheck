@@ -9,7 +9,7 @@ namespace App\Services\Business;
 
 use App\Models\ListItemModel;
 use \PDO;
-use App\Services\Data\BucketListDataService; 
+use App\Services\Data\BucketListDataService;
 
 class BucketListBusinessService {
     /**
@@ -18,11 +18,13 @@ class BucketListBusinessService {
      * @return boolean
      */
     public function createBucketList(int $userID) {
+        //get credentials for accessing the database
         $servername = config("database.connections.mysql.host");
         $dbname = config("database.connections.mysql.database");
         $username = config("database.connections.mysql.username");
         $password = config("database.connections.mysql.password");
 
+        //create connection
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -74,7 +76,7 @@ class BucketListBusinessService {
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        //create a security service dao with this connection and try to find the password in user
+        //create a bucketlist dao with this connection and create the item list
         $service = new BucketListDataService($conn);
         $flag = $service->createListItem($item);
 
@@ -98,7 +100,7 @@ class BucketListBusinessService {
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        //create a security service dao with this connection and try to find the password in user
+        //create a bucketlist dao with this connection and try to find the list item
         $service = new BucketListDataService($conn);
         $flag = $service->findListItems($bucketListID);
 
@@ -122,7 +124,7 @@ class BucketListBusinessService {
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        //create a security service dao with this connection and try to find the password in user
+        //create a bucketlist dao with this connection and try to find all list items
         $service = new BucketListDataService($conn);
         $flag = $service->findAllLists();
 
