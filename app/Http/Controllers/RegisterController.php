@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\UserModel;
 use App\Services\Business\UserBusinessService;
 use Illuminate\Validation\ValidationException;
+use Exception;
 
 class RegisterController extends Controller {
     //add a user
@@ -46,6 +47,11 @@ class RegisterController extends Controller {
             //must rethrow this exception in order for laravel to display your submitted page with errors
             //catch and rethrow data validation exception (so we can catch all others in our next exception catch block
             throw $e1;
+        }
+
+        catch (Exception $e) {
+            $data = ['errorMsg' => $e->getMessage()];
+            return view('exception')->with($data);
         }
     }
 

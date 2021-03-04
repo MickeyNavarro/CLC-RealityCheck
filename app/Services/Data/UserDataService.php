@@ -7,6 +7,8 @@ namespace App\Services\Data;
 
 use App\Models\UserModel;
 use App\Models\CredentialModel;
+use PDOException;
+use App\Services\Utility\DatabaseException;
 
 //Database interacts with the data from the User class
 class UserDataService {
@@ -18,26 +20,32 @@ class UserDataService {
 
     // Method to add user to database
     public function createUser(UserModel $user) {
-        //select variables and see if the row exists
-        $username = $user->getUsername();
-        $password = $user->getPassword();
-        $email = $user->getEmail();
+        try{
+            //select variables and see if the row exists
+            $username = $user->getUsername();
+            $password = $user->getPassword();
+            $email = $user->getEmail();
 
-        //prepared statements is created
-        $stmt = $this->conn->prepare("INSERT INTO `User` (`Username`, `Email`, `Password`) VALUES (:username, :email, :password)");
-        //binds parameters
-        $stmt->bindParam(':username', $username);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':password', $password);
+            //prepared statements is created
+            $stmt = $this->conn->prepare("INSERT INTO `User` (`Username`, `Email`, `Password`) VALUES (:username, :email, :password)");
+            //binds parameters
+            $stmt->bindParam(':username', $username);
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':password', $password);
 
-        /*see if user existed and return true if found
-        else return false if not found*/
-        if ($stmt->execute() >= 1) {
-            return true;
+            /*see if user existed and return true if found
+            else return false if not found*/
+            if ($stmt->execute() >= 1) {
+                return true;
+            }
+
+            else {
+                return false;
+            }
         }
 
-        else {
-            return false;
+        catch(PDOException $e) {
+            throw new DatabaseException("Database Exception: " . $e->getMessage(), 0, $e);
         }
     }
 
@@ -47,26 +55,12 @@ class UserDataService {
      * @return NULL
      */
     public function findByUser(CredentialModel $user) {
-        //select username and password and see if the row exists
-        $username = $user->getUsername();
-        $password = $user->getPassword();
+        try{
 
-        $stmt = $this->conn->prepare('SELECT * FROM `User` WHERE BINARY `Username` = :username AND `Password` = :password');
-        $stmt->bindParam(':username', $username);
-        $stmt->bindParam(':password', $password);
-
-        $stmt->execute();
-
-        /*see if user existed and return true if found
-            else return false if not found*/
-        if ($stmt->rowCount() == 1) {
-            $user = $stmt->fetch(\PDO::FETCH_ASSOC);
-            return $user['ID'];
         }
 
-
-        else {
-            return false;
+        catch (PDOException $e){
+            throw new DatabaseException("Database Exception: " . $e->getMessage(), 0, $e);
         }
     }
 }
