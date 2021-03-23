@@ -9,6 +9,7 @@ use App\Models\UserModel;
 use App\Models\CredentialModel;
 use PDOException;
 use App\Services\Utility\DatabaseException;
+use App\Services\Utility\RealityCheckLogger;
 
 //Database interacts with the data from the User class
 class UserDataService {
@@ -20,6 +21,8 @@ class UserDataService {
 
     // Method to add user to database
     public function createUser(UserModel $user) {
+        RealityCheckLogger::info("Entering UserDataService.createUser()");
+
         try{
             //select variables and see if the row exists
             $username = $user->getUsername();
@@ -45,6 +48,7 @@ class UserDataService {
         }
 
         catch(PDOException $e) {
+            RealityCheckLogger::error("Exception: ", array("message" => $e->getMessage()));
             throw new DatabaseException("Database Exception: " . $e->getMessage(), 0, $e);
         }
     }
@@ -55,6 +59,8 @@ class UserDataService {
      * @return NULL
      */
     public function findByUser(CredentialModel $user) {
+        RealityCheckLogger::info("Entering UserDataService.findByUser()");
+
         try{
             //select username and password and see if the row exists
             $username = $user->getUsername();
@@ -80,6 +86,7 @@ class UserDataService {
         }
 
         catch (PDOException $e){
+            RealityCheckLogger::error("Exception: ", array("message" => $e->getMessage()));
             throw new DatabaseException("Database Exception: " . $e->getMessage(), 0, $e);
         }
     }

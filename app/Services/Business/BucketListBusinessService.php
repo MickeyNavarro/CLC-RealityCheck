@@ -10,6 +10,7 @@ namespace App\Services\Business;
 use App\Models\ListItemModel;
 use \PDO;
 use App\Services\Data\BucketListDataService;
+use App\Services\Utility\RealityCheckLogger;
 
 class BucketListBusinessService {
     /**
@@ -18,6 +19,8 @@ class BucketListBusinessService {
      * @return boolean
      */
     public function createBucketList(int $userID) {
+        RealityCheckLogger::info("Entering BucketListBusinessService.createBucketList()");
+
         //get credentials for accessing the database
         $servername = config("database.connections.mysql.host");
         $dbname = config("database.connections.mysql.database");
@@ -33,6 +36,7 @@ class BucketListBusinessService {
         $flag = $service->createBucketList($userID);
 
         //return the finder results
+        RealityCheckLogger::info("Exit BucketListBusinessService.createBucketList() with " . $flag);
         return $flag;
     }
 
@@ -42,6 +46,8 @@ class BucketListBusinessService {
      * @return NULL
      */
     public function findListByUserID(int $userID) {
+        RealityCheckLogger::info("Entering BucketListBusinessService.findListByUserID()");
+
         //get credentials for accessing the database
         $servername = config("database.connections.mysql.host");
         $dbname = config("database.connections.mysql.database");
@@ -57,6 +63,7 @@ class BucketListBusinessService {
         $flag = $service->findListByUserID($userID);
 
         //return the finder results
+        RealityCheckLogger::info("Exit BucketListBusinessService.findListByUserID() with " . print_r($flag, true));
         return $flag;
     }
 
@@ -66,6 +73,8 @@ class BucketListBusinessService {
      * @return NULL
      */
     public function createListItem(ListItemModel $item) {
+        RealityCheckLogger::info("Entering BucketListBusinessService.createListItem()");
+
         //get credentials for accessing the database
         $servername = config("database.connections.mysql.host");
         $dbname = config("database.connections.mysql.database");
@@ -81,6 +90,7 @@ class BucketListBusinessService {
         $flag = $service->createListItem($item);
 
         //return the finder results
+        RealityCheckLogger::info("Exit BucketListBusinessService.createListItem() with " . $flag);
         return $flag;
     }
 
@@ -90,6 +100,8 @@ class BucketListBusinessService {
      * @return NULL
      */
     public function findListItems(int $bucketListID) {
+        RealityCheckLogger::info("Entering BucketListBusinessService.findListItems()");
+
         //get credentials for accessing the database
         $servername = config("database.connections.mysql.host");
         $dbname = config("database.connections.mysql.database");
@@ -105,6 +117,7 @@ class BucketListBusinessService {
         $flag = $service->findListItems($bucketListID);
 
         //return the finder results
+        RealityCheckLogger::info("Exit BucketListBusinessService.findListItems() with " . print_r($flag, true));
         return $flag;
     }
 
@@ -114,6 +127,8 @@ class BucketListBusinessService {
      * @return NULL
      */
     public function findAllLists() {
+        RealityCheckLogger::info("Entering BucketListBusinessService.findAllLists()");
+
         //get credentials for accessing the database
         $servername = config("database.connections.mysql.host");
         $dbname = config("database.connections.mysql.database");
@@ -129,6 +144,7 @@ class BucketListBusinessService {
         $flag = $service->findAllLists();
 
         //return the finder results
+        RealityCheckLogger::info("Exit BucketListBusinessService.findAllLists() with " . print_r($flag, true));
         return $flag;
     }
 }

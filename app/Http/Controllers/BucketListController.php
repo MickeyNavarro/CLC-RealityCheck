@@ -12,6 +12,7 @@ use Illuminate\Validation\ValidationException;
 use Exception;
 use App\Models\ListItemModel;
 use App\Services\Business\BucketListBusinessService;
+use App\Services\Utility\RealityCheckLogger;
 
 class BucketListController extends Controller
 {
@@ -22,6 +23,8 @@ class BucketListController extends Controller
      * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function index(Request $request) {
+        RealityCheckLogger::info("Entering BucketListController.index()");
+
         try{
             //1. check if bucket list exists
             //get the user ID from the session variables
@@ -102,6 +105,7 @@ class BucketListController extends Controller
         }
 
         catch(Exception $e) {
+            RealityCheckLogger::error("Exception: ", array("message" => $e->getMessage()));
             $data = ['errorMsg' => $e->getMessage()];
             return view('exception')->with($data);
         }
@@ -114,6 +118,8 @@ class BucketListController extends Controller
      * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function getList(Request $request) {
+        RealityCheckLogger::info("Entering BucketListController.getList()");
+
         try{
             //get the user ID from the session variables
             $user_id = $request->session()->get('user_id');
@@ -152,6 +158,7 @@ class BucketListController extends Controller
         }
 
         catch(Exception $e){
+            RealityCheckLogger::error("Exception: ", array("message" => $e->getMessage()));
             $data = ['errorMsg' => $e->getMessage()];
             return view('exception')->with($data);
         }
@@ -164,6 +171,8 @@ class BucketListController extends Controller
      * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function getAllLists(Request $request) {
+        RealityCheckLogger::info("Entering BucketListController.getAllLists()");
+
         try{
             //initialize the service
             $service = new BucketListBusinessService();
@@ -190,6 +199,7 @@ class BucketListController extends Controller
         }
 
         catch(Exception $e) {
+            RealityCheckLogger::error("Exception: ", array("message" => $e->getMessage()));
             $data = ['errorMsg' => $e->getMessage()];
             return view('exception')->with($data);
         }

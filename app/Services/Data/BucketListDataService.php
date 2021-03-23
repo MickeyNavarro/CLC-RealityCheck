@@ -8,6 +8,7 @@ namespace App\Services\Data;
 use App\Models\ListItemModel;
 use PDOException;
 use App\Services\Utility\DatabaseException;
+use App\Services\Utility\RealityCheckLogger;
 
 //Database interacts with the data from the bucketlist class and the list item class
 class BucketListDataService {
@@ -19,6 +20,8 @@ class BucketListDataService {
 
     //Method to create a bucket list in the database
     public function createBucketList(int $userID) {
+        RealityCheckLogger::info("Entering BucketListDataService.createBucketList()");
+
         try{
             //use the user ID to create a new bucketlist
             //prepared statements is created
@@ -37,12 +40,15 @@ class BucketListDataService {
         }
 
         catch (PDOException $e) {
+            RealityCheckLogger::error("Exception: ", array("message" => $e->getMessage()));
             throw new DatabaseException("Database Exception: " . $e->getMessage(), 0, $e);
         }
     }
 
     // Method to get the bucket list from database using the user ID
     public function findListByUserID($userID) {
+        RealityCheckLogger::info("Entering BucketListDataService.findListByUserID()");
+
         try{
             //check if row exists by using the $userID
             //prepared statements is created
@@ -63,12 +69,15 @@ class BucketListDataService {
         }
 
         catch(PDOException $e) {
+            RealityCheckLogger::error("Exception: ", array("message" => $e->getMessage()));
             throw new DatabaseException("Database Exception: " . $e->getMessage(), 0, $e);
         }
     }
 
     // Method to add list item to database
     public function createListItem(ListItemModel $item) {
+        RealityCheckLogger::info("Entering BucketListDataService.createListItem()");
+
         try{
             //select variables and see if the row exists
             $description = $item->getDescription();
@@ -91,12 +100,15 @@ class BucketListDataService {
         }
 
         catch(PDOException $e) {
+            RealityCheckLogger::error("Exception: ", array("message" => $e->getMessage()));
             throw new DatabaseException("Database Exception: " . $e->getMessage(), 0, $e);
         }
     }
 
     // Method to get the bucket list items from database using the bucket list id
     public function findListItems(int $bucketListID) {
+        RealityCheckLogger::info("Entering BucketListDataService.findListItems()");
+
        try {
             //check if row exists by using the $userID
             //prepared statements is created
@@ -117,13 +129,16 @@ class BucketListDataService {
             return $list;
         }
 
-       catch(PDOException $e) {
-           throw new DatabaseException("Database Exception: " . $e->getMessage(), 0, $e);
-       }
+        catch(PDOException $e) {
+            RealityCheckLogger::error("Exception: ", array("message" => $e->getMessage()));
+            throw new DatabaseException("Database Exception: " . $e->getMessage(), 0, $e);
+        }
     }
 
     //Method to get all the lists from database
     public function findAllLists() {
+        RealityCheckLogger::info("Entering BucketListDataService.findAllLists()");
+
         try {
             //prepared statement is created to display all bucket lists and their list items
             $stmt = $this->conn->prepare("SELECT BucketList.ID as BucketList_ID, BucketList.User_ID, ListItem.ID as ListItem_ID, ListItem.Description, User.Username FROM BucketList INNER JOIN ListItem ON BucketList.ID = ListItem.BucketList_ID Inner Join User ON User.ID = BucketList.User_ID ORDER BY BucketList.User_ID ASC");
@@ -160,6 +175,7 @@ class BucketListDataService {
         }
 
         catch(PDOException $e) {
+            RealityCheckLogger::error("Exception: ", array("message" => $e->getMessage()));
             throw new DatabaseException("Database Exception: " . $e->getMessage(), 0, $e);
         }
     }

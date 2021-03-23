@@ -11,10 +11,13 @@ use App\Models\UserModel;
 use App\Services\Business\UserBusinessService;
 use Illuminate\Validation\ValidationException;
 use Exception;
+use App\Services\Utility\RealityCheckLogger;
 
 class RegisterController extends Controller {
     //add a user
     public function index(Request $request){
+        RealityCheckLogger::info("Entering RegisterController.index()");
+
         try{
             //$this->validateForm($request);
 
@@ -50,6 +53,7 @@ class RegisterController extends Controller {
         }
 
         catch (Exception $e) {
+            RealityCheckLogger::error("Exception: ", array("message" => $e->getMessage()));
             $data = ['errorMsg' => $e->getMessage()];
             return view('exception')->with($data);
         }
