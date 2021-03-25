@@ -11,6 +11,7 @@ use \PDO;
 use App\Models\UserModel;
 use App\Models\CredentialModel;
 use App\Services\Data\UserDataService;
+use App\Services\Utility\RealityCheckLogger;
 
 class UserBusinessService {
 /**
@@ -19,6 +20,8 @@ class UserBusinessService {
      * @return boolean
      */
     public function create(UserModel $user) {
+        RealityCheckLogger::info("Entering UserBusinessService.create()");
+
         //get credentials for accessing the database
         $servername = config("database.connections.mysql.host");
         $dbname = config("database.connections.mysql.database");
@@ -34,6 +37,7 @@ class UserBusinessService {
         $flag = $service->createUser($user);
 
         //return the finder results
+        RealityCheckLogger::info("Exit UserBusinessService.create() with " . $flag);
         return $flag;
     }
 
@@ -43,6 +47,8 @@ class UserBusinessService {
      * @return NULL
      */
     public function login(CredentialModel $user) {
+        RealityCheckLogger::info("Entering UserBusinessService.login()");
+
         //get credentials for accessing the database
         $servername = config("database.connections.mysql.host");
         $dbname = config("database.connections.mysql.database");
@@ -58,6 +64,7 @@ class UserBusinessService {
         $flag = $service->findByUser($user);
 
         //return the finder results
+        RealityCheckLogger::info("Exit UserBusinessService.login() with " . $flag);
         return $flag;
     }
 }

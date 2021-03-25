@@ -12,6 +12,7 @@ use Illuminate\Validation\ValidationException;
 use Exception;
 use App\Models\CredentialModel;
 use App\Services\Business\UserBusinessService;
+use App\Services\Utility\RealityCheckLogger;
 
 class LoginController extends Controller
 {
@@ -22,6 +23,9 @@ class LoginController extends Controller
      * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function index(Request $request) {
+        RealityCheckLogger::info("Entering LoginController.index()");
+
+        try{
             //1. process form data
             //get posted form data
             $username = $request->input('username');
@@ -52,6 +56,13 @@ class LoginController extends Controller
                 // return view('loginFail');
                 return redirect()->back()->with('message', 'Login Failed');
             }
+        }
+
+        catch(Exception $e) {
+            RealityCheckLogger::error("Exception: ", array("message" => $e->getMessage()));
+            $data = ['errorMsg' => $e->getMessage()];
+            return view('exception')->with($data);
+        }
     }
 
     /**
@@ -60,9 +71,19 @@ class LoginController extends Controller
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function logout(Request $request) {
-        //$request->session()->forget('user_id');
-        $request->session()->flush();
-        $request->session()->regenerate(true);
-        return redirect('/home');
+        RealityCheckLogger::info("Entering LoginController.logout()");
+
+        try{
+            //$request->session()->forget('user_id');
+            $request->session()->flush();
+            $request->session()->regenerate(true);
+            return redirect('/home');
+        }
+
+        catch(Exception $e) {
+            RealityCheckLogger::error("Exception: ", array("message" => $e->getMessage()));
+            $data = ['errorMsg' => $e->getMessage()];
+            return view('exception')->with($data);
+        }
     }
 }

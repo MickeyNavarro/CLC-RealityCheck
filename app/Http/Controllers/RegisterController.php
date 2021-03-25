@@ -10,10 +10,14 @@ use Illuminate\Http\Request;
 use App\Models\UserModel;
 use App\Services\Business\UserBusinessService;
 use Illuminate\Validation\ValidationException;
+use Exception;
+use App\Services\Utility\RealityCheckLogger;
 
 class RegisterController extends Controller {
     //add a user
     public function index(Request $request){
+        RealityCheckLogger::info("Entering RegisterController.index()");
+
         try{
             //$this->validateForm($request);
 
@@ -46,6 +50,12 @@ class RegisterController extends Controller {
             //must rethrow this exception in order for laravel to display your submitted page with errors
             //catch and rethrow data validation exception (so we can catch all others in our next exception catch block
             throw $e1;
+        }
+
+        catch (Exception $e) {
+            RealityCheckLogger::error("Exception: ", array("message" => $e->getMessage()));
+            $data = ['errorMsg' => $e->getMessage()];
+            return view('exception')->with($data);
         }
     }
 

@@ -12,6 +12,7 @@ use Illuminate\Validation\ValidationException;
 use Exception;
 use App\Models\ListItemModel;
 use App\Services\Business\BucketListBusinessService;
+use App\Services\Utility\RealityCheckLogger;
 
 class BucketListController extends Controller
 {
@@ -22,6 +23,9 @@ class BucketListController extends Controller
      * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function index(Request $request) {
+        RealityCheckLogger::info("Entering BucketListController.index()");
+
+        try{
             //1. check if bucket list exists
             //get the user ID from the session variables
             $user_id = $request->session()->get('user_id');
@@ -81,7 +85,7 @@ class BucketListController extends Controller
                     //3. execute business service
                     //create a new bucket list item with the form data and bucket list ID
                     $success = $service->createListItem($newItem);
-                
+
                     //find all the list items to be outputted
                     $find = $service->findListItems($bucketListID);
 
@@ -98,6 +102,13 @@ class BucketListController extends Controller
 
                 return redirect()->back()->with('message', 'Bucket list not found');
             }
+        }
+
+        catch(Exception $e) {
+            RealityCheckLogger::error("Exception: ", array("message" => $e->getMessage()));
+            $data = ['errorMsg' => $e->getMessage()];
+            return view('exception')->with($data);
+        }
     }
 
     /**
@@ -107,39 +118,49 @@ class BucketListController extends Controller
      * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function getList(Request $request) {
-        //get the user ID from the session variables
-        $user_id = $request->session()->get('user_id');
+        RealityCheckLogger::info("Entering BucketListController.getList()");
 
-        //initialize the service
-        $service = new BucketListBusinessService();
+        try{
+            //get the user ID from the session variables
+            $user_id = $request->session()->get('user_id');
 
-        //execute the service to find the list by the user ID 
-        $bucketListID = $service->findListByUserID($user_id);
+            //initialize the service
+            $service = new BucketListBusinessService();
 
-        //check if bucket list id was returned
-        if($bucketListID != null){
-
-            //find all the list items to be outputted
-            $find = $service->findListItems($bucketListID);
-
-            //return view with the list items
-            return view('mybucketlist')->with('list', $find);
-        }
-        else { 
-            //create a new bucket list to belong to the user with the given ID
-            $listSuccess = $service->createBucketList($user_id);
-
-            //find the bucket list ID that belongs to the user with the given ID
+            //execute the service to find the list by the user ID
             $bucketListID = $service->findListByUserID($user_id);
 
-            //check if the bucket list was created
-            if ($listSuccess && $bucketListID != null) {
+            //check if bucket list id was returned
+            if($bucketListID != null){
+
                 //find all the list items to be outputted
                 $find = $service->findListItems($bucketListID);
 
                 //return view with the list items
                 return view('mybucketlist')->with('list', $find);
             }
+            else {
+                //create a new bucket list to belong to the user with the given ID
+                $listSuccess = $service->createBucketList($user_id);
+
+                //find the bucket list ID that belongs to the user with the given ID
+                $bucketListID = $service->findListByUserID($user_id);
+
+                //check if the bucket list was created
+                if ($listSuccess && $bucketListID != null) {
+                    //find all the list items to be outputted
+                    $find = $service->findListItems($bucketListID);
+
+                    //return view with the list items
+                    return view('mybucketlist')->with('list', $find);
+                }
+            }
+        }
+
+        catch(Exception $e){
+            RealityCheckLogger::error("Exception: ", array("message" => $e->getMessage()));
+            $data = ['errorMsg' => $e->getMessage()];
+            return view('exception')->with($data);
         }
     }
 
@@ -150,28 +171,37 @@ class BucketListController extends Controller
      * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function getAllLists(Request $request) {
+        RealityCheckLogger::info("Entering BucketListController.getAllLists()");
 
-        //initialize the service
-        $service = new BucketListBusinessService();
+        try{
+            //initialize the service
+            $service = new BucketListBusinessService();
 
-        //execute the service to find the lists
-        $bucketListsArray = $service->findAllLists(); 
+            //execute the service to find the lists
+            $bucketListsArray = $service->findAllLists();
 
-        //check if bucket list array was returned
-        if($bucketListsArray != null){
+            //check if bucket list array was returned
+            if($bucketListsArray != null){
 
-            /*Test output
-            echo "Display Bucket Lists Array in Controller: \n"; 
-      
-            print_r($bucketListsArray);
-            */
+                /*Test output
+                echo "Display Bucket Lists Array in Controller: \n";
 
-            //return view with the bucket lists and its items
-            return view('explore')->with('lists', $bucketListsArray);
+                print_r($bucketListsArray);
+                */
+
+                //return view with the bucket lists and its items
+                return view('explore')->with('lists', $bucketListsArray);
+            }
+            else {
+                //return with error message
+                return view('explore')->with('message', 'Unable to get all Bucket Lists');
+            }
         }
-        else { 
-            //return with error message 
-            return view('explore')->with('message', 'Unable to get all Bucket Lists');
+
+        catch(Exception $e) {
+            RealityCheckLogger::error("Exception: ", array("message" => $e->getMessage()));
+            $data = ['errorMsg' => $e->getMessage()];
+            return view('exception')->with($data);
         }
     }
 }

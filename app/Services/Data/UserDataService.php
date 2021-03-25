@@ -7,6 +7,9 @@ namespace App\Services\Data;
 
 use App\Models\UserModel;
 use App\Models\CredentialModel;
+use PDOException;
+use App\Services\Utility\DatabaseException;
+use App\Services\Utility\RealityCheckLogger;
 
 //Database interacts with the data from the User class
 class UserDataService {
@@ -18,26 +21,35 @@ class UserDataService {
 
     // Method to add user to database
     public function createUser(UserModel $user) {
-        //select variables and see if the row exists
-        $username = $user->getUsername();
-        $password = $user->getPassword();
-        $email = $user->getEmail();
+        RealityCheckLogger::info("Entering UserDataService.createUser()");
 
-        //prepared statements is created
-        $stmt = $this->conn->prepare("INSERT INTO `User` (`Username`, `Email`, `Password`) VALUES (:username, :email, :password)");
-        //binds parameters
-        $stmt->bindParam(':username', $username);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':password', $password);
+        try{
+            //select variables and see if the row exists
+            $username = $user->getUsername();
+            $password = $user->getPassword();
+            $email = $user->getEmail();
 
-        /*see if user existed and return true if found
-        else return false if not found*/
-        if ($stmt->execute() >= 1) {
-            return true;
+            //prepared statements is created
+            $stmt = $this->conn->prepare("INSERT INTO `User` (`Username`, `Email`, `Password`) VALUES (:username, :email, :password)");
+            //binds parameters
+            $stmt->bindParam(':username', $username);
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':password', $password);
+
+            /*see if user existed and return true if found
+            else return false if not found*/
+            if ($stmt->execute() >= 1) {
+                return true;
+            }
+
+            else {
+                return false;
+            }
         }
 
-        else {
-            return false;
+        catch(PDOException $e) {
+            RealityCheckLogger::error("Exception: ", array("message" => $e->getMessage()));
+            throw new DatabaseException("Database Exception: " . $e->getMessage(), 0, $e);
         }
     }
 
@@ -47,26 +59,35 @@ class UserDataService {
      * @return NULL
      */
     public function findByUser(CredentialModel $user) {
-        //select username and password and see if the row exists
-        $username = $user->getUsername();
-        $password = $user->getPassword();
+        RealityCheckLogger::info("Entering UserDataService.findByUser()");
 
-        $stmt = $this->conn->prepare('SELECT * FROM `User` WHERE BINARY `Username` = :username AND `Password` = :password');
-        $stmt->bindParam(':username', $username);
-        $stmt->bindParam(':password', $password);
+        try{
+            //select username and password and see if the row exists
+            $username = $user->getUsername();
+            $password = $user->getPassword();
 
-        $stmt->execute();
+            $stmt = $this->conn->prepare('SELECT * FROM `User` WHERE BINARY `Username` = :username AND `Password` = :password');
+            $stmt->bindParam(':username', $username);
+            $stmt->bindParam(':password', $password);
 
-        /*see if user existed and return true if found
-            else return false if not found*/
-        if ($stmt->rowCount() == 1) {
-            $user = $stmt->fetch(\PDO::FETCH_ASSOC);
-            return $user['ID'];
+            $stmt->execute();
+
+            /*see if user existed and return true if found
+                else return false if not found*/
+            if ($stmt->rowCount() == 1) {
+                $user = $stmt->fetch(\PDO::FETCH_ASSOC);
+                return $user['ID'];
+            }
+
+
+            else {
+                return false;
+            }
         }
 
-
-        else {
-            return false;
+        catch (PDOException $e){
+            RealityCheckLogger::error("Exception: ", array("message" => $e->getMessage()));
+            throw new DatabaseException("Database Exception: " . $e->getMessage(), 0, $e);
         }
     }
 }
