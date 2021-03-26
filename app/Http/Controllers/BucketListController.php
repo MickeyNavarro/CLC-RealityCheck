@@ -57,10 +57,12 @@ class BucketListController extends Controller
                 //4. process results from business service
                 //render a failed response view with an error message or a success response view with the new list item
                 if ($newItem != null && $success) {
+                    RealityCheckLogger::info("Leaving BucketListController.index() to view My Bucket List Page with newly created bucket list item");
                     return view('mybucketlistResult')->with('bucketlist_id', $bucketListID);
                 }
 
                 else {
+                    RealityCheckLogger::info("Leaving BucketListController.index() to redirect back to My Bucket List Page due to bucket item creation failure");
                     return redirect()->back()->with('message', 'Bucket list item creation has failed');
                 }
             }
@@ -92,14 +94,16 @@ class BucketListController extends Controller
                     //4. process results from business service
                     //render a failed response view with an error message or a success response view with the new list item
                     if ($newItem != null && $success) {
+                        RealityCheckLogger::info("Leaving BucketListController.index() to view My Bucket List Page with newly created bucket list item");
                         return view('mybucketlistResult')->with('bucketlist_id', $bucketListID);
                     }
 
                     else {
+                        RealityCheckLogger::info("Leaving BucketListController.index() to redirect back to My Bucket List Page due to bucket item creation failure");
                         return redirect()->back()->with('message', 'Bucket list item creation has failed');
                     }
                 }
-
+                RealityCheckLogger::info("Leaving BucketListController.index() to redirect back to My Bucket List Page due to bucket list not found error");
                 return redirect()->back()->with('message', 'Bucket list not found');
             }
         }
@@ -137,6 +141,7 @@ class BucketListController extends Controller
                 $find = $service->findListItems($bucketListID);
 
                 //return view with the list items
+                RealityCheckLogger::info("Leaving BucketListController.getList() to view My Bucket List page with list items");
                 return view('mybucketlist')->with('list', $find);
             }
             else {
@@ -152,6 +157,7 @@ class BucketListController extends Controller
                     $find = $service->findListItems($bucketListID);
 
                     //return view with the list items
+                    RealityCheckLogger::info("Leaving BucketListController.getList() to view My Bucket List page with list items");
                     return view('mybucketlist')->with('list', $find);
                 }
             }
@@ -190,10 +196,12 @@ class BucketListController extends Controller
                 */
 
                 //return view with the bucket lists and its items
+                RealityCheckLogger::info("Leaving BucketListController.getAllLists() to view Explore Page with all bucket lists");
                 return view('explore')->with('lists', $bucketListsArray);
             }
             else {
                 //return with error message
+                RealityCheckLogger::info("Leaving BucketListController.getAllLists() to view Explore Page with no bucket lists found");
                 return view('explore')->with('message', 'Unable to get all Bucket Lists');
             }
         }

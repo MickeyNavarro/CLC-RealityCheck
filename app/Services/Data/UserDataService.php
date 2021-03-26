@@ -39,10 +39,12 @@ class UserDataService {
             /*see if user existed and return true if found
             else return false if not found*/
             if ($stmt->execute() >= 1) {
+                RealityCheckLogger::info("Leaving UserDataService.createUser() with true");
                 return true;
             }
 
             else {
+                RealityCheckLogger::info("Leaving UserDataService.createUser() with false");
                 return false;
             }
         }
@@ -76,11 +78,13 @@ class UserDataService {
                 else return false if not found*/
             if ($stmt->rowCount() == 1) {
                 $user = $stmt->fetch(\PDO::FETCH_ASSOC);
+                RealityCheckLogger::info("Leaving UserDataService.findByUser() with user ID");
                 return $user['ID'];
             }
 
 
             else {
+                RealityCheckLogger::info("Leaving UserDataService.findByUser() with false");
                 return false;
             }
         }
