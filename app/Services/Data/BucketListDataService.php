@@ -31,10 +31,12 @@ class BucketListDataService {
             /*see if bucket list existed and return true if found
             else return false if not found*/
             if ($stmt->execute()) {
+                RealityCheckLogger::info("Leaving BucketListDataService.createBucketList() with true");
                 return true;
             }
 
             else {
+                RealityCheckLogger::info("Leaving BucketListDataService.createBucketList() with false");
                 return false;
             }
         }
@@ -60,10 +62,12 @@ class BucketListDataService {
             else return null if not found*/
             if ($stmt->rowCount() == 1) {
                 $bucketList = $stmt->fetch(\PDO::FETCH_ASSOC);
+                RealityCheckLogger::info("Leaving BucketListDataService.findListByUserID() with bucketlist ID");
                 return $bucketList['ID'];
             }
 
             else {
+                RealityCheckLogger::info("Leaving BucketListDataService.findListByUserID() with null");
                 return null;
             }
         }
@@ -91,10 +95,12 @@ class BucketListDataService {
             /*see if list item existed and return true if found
             else return false if not found*/
             if ($stmt->execute()) {
+                RealityCheckLogger::info("Leaving BucketListDataService.createListItem() with true");
                 return true;
             }
 
             else {
+                RealityCheckLogger::info("Leaving BucketListDataService.createListItem() with false");
                 return false;
             }
         }
@@ -126,6 +132,7 @@ class BucketListDataService {
                 //inserts variables into end of array
                 array_push($list, $listItem);
             }
+            RealityCheckLogger::info("Leaving BucketListDataService.findListItems() with an array of bucket list items");
             return $list;
         }
 
@@ -169,6 +176,8 @@ class BucketListDataService {
 
             print_r($bucketListsArray);
             */
+
+            RealityCheckLogger::info("Leaving BucketListDataService.findAllLists() with array of all bucket lists");
 
             //return bucket list array
             return $bucketListsArray;

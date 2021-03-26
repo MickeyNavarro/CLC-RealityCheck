@@ -49,12 +49,15 @@ class LoginController extends Controller
                 $request->session()->put('username', $username);
                 $request->session()->put('user_id', $user_id);
 
+                RealityCheckLogger::info("Leaving LoginController.index() to view Explore Page due to login success");
+
                 return redirect('explore');
             }
 
             else {
                 // return view('loginFail');
                 return redirect()->back()->with('message', 'Login Failed');
+                RealityCheckLogger::info("Leaving LoginController.index() to redirect to Home Page (Login) due to login failure");
             }
         }
 
@@ -77,6 +80,7 @@ class LoginController extends Controller
             //$request->session()->forget('user_id');
             $request->session()->flush();
             $request->session()->regenerate(true);
+            RealityCheckLogger::info("Leaving LoginController.index() to view Home Page due to logout success");
             return redirect('/home');
         }
 

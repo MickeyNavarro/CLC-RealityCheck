@@ -38,10 +38,12 @@ class RegisterController extends Controller {
             //4. process results from business service (navigation)
             //render a failed or success response view
             if ($status) {
+                RealityCheckLogger::info("Leaving RegisterController.index() to redirect to Home Page (Login) due to registration success");
                 return redirect('home');
             }
 
             else {
+                RealityCheckLogger::info("Leaving RegisterController.index() to redirect to Home Page (Register) due to registration failure");
                 return redirect()->back()->with('message', 'Register Failed');
             }
         }
