@@ -4,7 +4,7 @@
 @section('content')
 
 <div class="header">
-<h4>Testing Build Pipeline!</h4>
+{{-- <h4>Testing Build Pipeline!</h4> --}}
 <h3>Make your goals into a</h3>
 <h1>REALITY</h1>
 </div>
