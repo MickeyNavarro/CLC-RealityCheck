@@ -6,6 +6,8 @@
 <div class="header">
 <h3>Make your goals into a</h3>
 <h1>REALITY</h1>
+
+<h3>Testing the build pipeline!</h3>
 </div>
 
 <div class="home-content">
